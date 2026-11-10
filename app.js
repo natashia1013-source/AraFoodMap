@@ -780,10 +780,9 @@ $("backup-file").onchange = async event => {
 function setView(view) {
   if (view === "list" && picking) finishPick();
   if (view === "list") renderMapBanner();
-  $("layout").dataset.view = view;
-  $("list-tab").setAttribute("aria-pressed", String(view === "list"));
-  $("map-tab").setAttribute("aria-pressed", String(view === "map"));
-  if (view === "map") requestAnimationFrame(updateMap);
+  const mobile = window.matchMedia("(max-width: 720px)").matches;
+  $("layout").dataset.view = mobile ? "map" : view;
+  if (view === "map" || mobile) requestAnimationFrame(updateMap);
 }
 function setMenuPanelHidden(hidden) {
   const layout = $("layout");
@@ -843,6 +842,7 @@ function showPlaceOnMap(place, openBanner = true) {
   $("places").querySelector("[aria-current=true]")?.removeAttribute("aria-current");
   $("places").querySelector(`[data-place-id="${CSS.escape(place.id)}"]`)?.setAttribute("aria-current", "true");
   setView("map");
+  if (openBanner && window.matchMedia("(max-width: 720px)").matches) setMenuPanelHidden(true);
   renderMapBanner(openBanner ? place : null);
 }
 $("random-recommend").addEventListener("click", () => {
@@ -858,7 +858,7 @@ $("random-recommend").addEventListener("click", () => {
 function scrollSavedPlaceToTop(placeId) {
   const viewport = document.querySelector(".places");
   const card = $("places").querySelector(`[data-place-id="${CSS.escape(placeId)}"]`);
-  const stickyHead = viewport?.querySelector(".list-head");
+  const stickyHead = $("list-panel").querySelector(".list-head");
   if (!viewport || !card || !stickyHead) return;
   const cardTop = card.getBoundingClientRect().top - viewport.getBoundingClientRect().top;
   const headerHeight = stickyHead.getBoundingClientRect().height;
@@ -869,8 +869,19 @@ $("map-place-dismiss").onclick = () => renderMapBanner(null);
 document.addEventListener("keydown", event => {
   if (event.key === "Escape" && mapPlaceId && !document.querySelector("dialog[open]")) renderMapBanner();
 });
-$("list-tab").onclick = () => setView("list");
-$("map-tab").onclick = () => setView("map");
+$("search-toggle").onclick = () => {
+  const open = !$("layout").classList.contains("search-open");
+  $("layout").classList.toggle("search-open", open);
+  $("search-toggle").setAttribute("aria-expanded", String(open));
+  if (open) requestAnimationFrame(() => $("search").focus());
+  else {
+    $("search").value = "";
+    renderList();
+  }
+};
+$("search").addEventListener("keydown", event => {
+  if (event.key === "Escape") $("search-toggle").click();
+});
 $("zoom-in").onclick = () => { if (map) map.setZoom(map.getZoom() + 1); };
 $("zoom-out").onclick = () => { if (map) map.setZoom(map.getZoom() - 1); };
 $("map-setup").onclick = openSettings;
@@ -945,7 +956,7 @@ function updateMap() {
   const width = viewport.clientWidth;
   const height = viewport.clientHeight;
   if (!width || !height) return;
-  const mobile = $("map-tab").offsetWidth > 0;
+  const mobile = window.matchMedia("(max-width: 720px)").matches;
   const list = $("list-panel");
   const menuHidden = $("layout").classList.contains("menu-hidden");
   const inset = !mobile && !menuHidden && list.offsetWidth

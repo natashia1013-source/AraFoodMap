@@ -1,4 +1,8 @@
-window.ARA_CONFIG = {mapsClientId: ""};
+window.ARA_CONFIG = {
+  mapsClientId: "ujmxb3yubw",
+  supabaseUrl: "https://dwpqezqfkmsctlbgdriv.supabase.co",
+  supabasePublishableKey: "sb_publishable_wWxCuUv0QqBsw-nReLlQKA_92_bQcxI"
+};
 (() => {
   const get = Storage.prototype.getItem;
   const set = Storage.prototype.setItem;
