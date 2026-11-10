@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f7f8f3">
+  <title>라땡머땡</title>
+  <link rel="stylesheet" href="./style.css?v=37">
+  <script defer src="./config.js"></script>
+  <script defer src="./storage.js"></script>
+  <script defer src="./app.js?v=37"></script>
+</head>
+<body>
+  <svg class="icon-bank" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <symbol id="icon-search" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6"/><path d="m15 15 4.5 4.5"/></symbol>
+    <symbol id="icon-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+    <symbol id="icon-x" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></symbol>
+    <symbol id="icon-edit" viewBox="0 0 24 24"><path d="m14 5 5 5M4 20l4.4-.9L20 7.5 16.5 4 4.9 15.6 4 20Z"/><path d="M13 7 18 12"/></symbol>
+    <symbol id="icon-trash" viewBox="0 0 24 24"><path d="M4 7h16M9 7V4h6v3m3 0-.8 13H6.8L6 7m4 4v5m4-5v5"/></symbol>
+    <symbol id="icon-gear" viewBox="0 0 24 24"><path d="M10 3h4l.7 2.4 1.8.8 2.2-1.1 2 3.4-1.6 1.8.1 2.1 1.7 1.7-2 3.5-2.4-.6-1.8 1-.7 2.5h-4l-.7-2.5-1.8-1-2.4.6-2-3.5 1.7-1.7.1-2.1-1.6-1.8 2-3.4 2.2 1.1 1.8-.8z"/><circle cx="12" cy="12" r="3"/></symbol>
+    <symbol id="icon-chicken" viewBox="0 0 24 24"><path d="M10 14c-2.5-3.2.2-5.4 1.2-7.1C12.9 4 17 2.4 19.5 4.8c2.8 2.8.8 7.2-1.5 9-1.8 1.4-4.5 2.5-7.1.8M10 14l-3.6 3.6a1.9 1.9 0 1 0-2.5 2.5 1.9 1.9 0 1 0 2.5 2.5l5-6.9" transform="translate(0 -1)"/></symbol>
+    <symbol id="icon-burger" viewBox="0 0 24 24"><path d="M3 10a9 6 0 0 1 18 0H3Zm0 4h18M4 17h16v1a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-1ZM9 7h.01M15 7h.01"/></symbol>
+    <symbol id="icon-noodles" viewBox="0 0 24 24"><path d="M3 12h18a8 8 0 0 1-5 7.4V21H8v-1.6A8 8 0 0 1 3 12Zm4-4 12-5M8 10l12-3m-9 2v3m3-4v4"/></symbol>
+    <symbol id="icon-soup" viewBox="0 0 24 24"><path d="M3 12h18a8 8 0 0 1-5 7.4V21H8v-1.6A8 8 0 0 1 3 12ZM8 9c-2-2 2-3 0-5m4 5c-2-2 2-3 0-5m4 5c-2-2 2-3 0-5"/></symbol>
+    <symbol id="icon-cutlet" viewBox="0 0 24 24"><path d="M20.3 5.2c2.9 3.6-.7 9.5-4.5 12.1-4 2.8-8.8 3.2-11.2.4C2 14.9 4 10.3 7.8 7.3c4.5-3.5 10-5.2 12.5-2.1ZM6 10l7.7 7.7M9 7.2l8 8m-4.6-10 7 7"/></symbol>
+    <symbol id="icon-roll" viewBox="0 0 24 24"><path d="m5 9 6-4c3.5-2.3 10-.6 10 4.2 0 2-1 3-2.6 4l-5.5 4"/><ellipse cx="8.5" cy="14" rx="5.5" ry="5"/><circle cx="8.5" cy="14" r="2"/></symbol>
+    <symbol id="icon-skewer" viewBox="0 0 24 24"><path d="m3 21 3-3m12-12 3-3M6 12l6-6 3 3-6 6zm3 3 6-6 3 3-6 6z"/></symbol>
+    <symbol id="icon-coffee" viewBox="0 0 24 24"><path d="M4 8h13v5a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5V8Zm13 1h2a2.5 2.5 0 0 1 0 5h-2M3 21h18M8 5V3m4 2V3"/></symbol>
+    <symbol id="icon-bread" viewBox="0 0 24 24"><path d="M3 16c0-5 4.5-10 11-10 4 0 7 2.1 7 5.4 0 4-4.4 6.6-9 6.6H5a2 2 0 0 1-2-2Zm5-5 2 2m2-4 2 2m2-3 2 2"/></symbol>
+    <symbol id="icon-egg" viewBox="0 0 24 24"><path d="M20 14a8 7 0 0 1-16 0c0-4.2 4-11 8-11s8 6.8 8 11Z"/><circle cx="12" cy="14" r="3"/></symbol>
+    <symbol id="icon-salad" viewBox="0 0 24 24"><path d="M3 13h18a9 9 0 0 1-18 0Zm4 0C5 9 6 5 11 4c1 3 2 5 1 8m0 0c1-4 4-6 8-6 0 4-2 6-5 7"/></symbol>
+    <symbol id="icon-shop" viewBox="0 0 24 24"><path d="M5 9h14l2 12H3L5 9Zm4 1V6a3 3 0 0 1 6 0v4"/></symbol>
+    <symbol id="icon-meal" viewBox="0 0 24 24"><path d="M4 3v6a3 3 0 0 0 6 0V3M7 3v18m11 0V3c-2.5 1.5-4 5-4 8v2h4"/></symbol>
+    <symbol id="icon-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5m0-8h.01"/></symbol>
+    <symbol id="icon-chevron" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+  </svg>
+  <button id="random-recommend" class="random-recommend" type="button" aria-label="랜덤 추천" title="랜덤 추천">
+    <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 3v9l6.4 6.4M12 12l-7.8 4.5M12 12l7.8-4.5"/><circle cx="12" cy="12" r="1.6"/></svg>
+  </button>
+  <main>
+    <h1>라땡머땡</h1>
+    <nav class="switch" aria-label="화면 전환">
+      <button id="list-tab" aria-pressed="true" aria-controls="list-panel">목록</button>
+      <button id="map-tab" aria-pressed="false" aria-controls="map-panel">지도</button>
+    </nav>
+    <div id="layout" class="layout" data-view="list">
+      <section id="list-panel" class="panel listing" aria-label="저장한 장소">
+        <div class="panel-head">
+          <label class="visually-hidden" for="search">저장한 장소 검색</label>
+          <div class="search-field">
+            <input id="search" type="search">
+            <svg class="icon" aria-hidden="true"><use href="#icon-search"/></svg>
+          </div>
+          <div id="categories-wrap" class="categories-wrap">
+            <div id="categories" class="categories" role="group" aria-label="카테고리"></div>
+          </div>
+        </div>
+        <div class="places">
+          <div class="list-head">
+            <span class="visually-hidden" id="sort-label-hidden">정렬</span>
+            <div id="sort-menu" class="sort-menu">
+              <button id="sort-trigger" class="sort-trigger" type="button" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="sort-label-hidden sort-label">
+                <span id="sort-label">최신순</span><svg class="icon sort-chevron" aria-hidden="true"><use href="#icon-chevron"/></svg>
+              </button>
+              <div id="sort-options" class="sort-options" role="listbox" aria-label="정렬 방식" hidden>
+                <button type="button" role="option" data-sort="new" aria-selected="true">최신순</button>
+                <button type="button" role="option" data-sort="visits" aria-selected="false">방문횟수순</button>
+                <button type="button" role="option" disabled>가성비순 · 준비 중</button>
+              </div>
+            </div>
+            <select id="sort" aria-hidden="true" tabindex="-1" hidden><option value="new">최신순</option><option value="visits">방문횟수순</option><option disabled>가성비순 · 준비 중</option></select>
+          </div>
+          <div id="places"></div>
+        </div>
+        <button id="menu-panel-handle" class="menu-panel-handle" type="button" aria-expanded="true" aria-label="저장 목록 숨기기" title="왼쪽으로 끌어서 저장 목록 숨기기"><span aria-hidden="true"></span></button>
+      </section>
+      <section id="map-panel" class="panel mapping" aria-label="아라동 지도">
+        <div id="pick-bar" class="row" hidden><strong>지도에서 위치를 눌러 주세요.</strong><button id="pick-cancel" class="quiet">선택 취소</button></div>
+        <div class="map-stage">
+          <div class="map-viewport">
+            <div id="map" aria-label="네이버 지도"></div>
+            <div id="map-zoom-controls" class="map-zoom-controls" aria-label="지도 확대 축소">
+              <button id="zoom-in" type="button" aria-label="지도 확대" title="지도 확대">+</button>
+              <button id="zoom-out" type="button" aria-label="지도 축소" title="지도 축소">−</button>
+            </div>
+          </div>
+          <aside id="map-place-banner" class="map-place-banner" hidden>
+            <div id="map-place-summary">
+              <h3 id="map-place-title"></h3>
+              <div id="map-place-body"></div>
+              <div id="map-place-actions"></div>
+            </div>
+            <div id="map-place-frame"></div>
+            <div class="map-place-control-overlay" aria-label="네이버 패널 조작">
+              <button type="button" id="map-place-back" aria-label="뒤로, 패널 닫기"></button>
+              <button type="button" id="map-place-dismiss" aria-label="닫기, 패널 닫기"></button>
+            </div>
+          </aside>
+          <div id="map-status" class="map-status">
+            <div class="map-message"><span class="map-glyph" aria-hidden="true">⌖</span><h3 id="map-status-title">네이버 지도 연결</h3><p id="map-status-copy">AraFoodMap의 Client ID를 설정하면 지도가 열립니다.</p><button id="map-setup" class="primary">지도 설정</button></div>
+          </div>
+        </div>
+      </section>
+    </div>
+    <p id="notice" role="status" hidden></p>
+  </main>
+  <footer class="bottom-actions">
+    <button id="settings" aria-label="설정" title="설정"><svg class="icon" aria-hidden="true"><use href="#icon-gear"/></svg></button>
+    <button id="add" aria-label="장소 추가" title="장소 추가"><svg class="icon" aria-hidden="true"><use href="#icon-plus"/></svg></button>
+  </footer>
+
+  <dialog id="place-dialog">
+    <form id="place-form" class="modal">
+      <div class="row"><h2 id="place-title">장소 추가</h2><button type="button" class="quiet" data-close="place-dialog" aria-label="닫기">닫기</button></div>
+      <div class="form-grid">
+        <label>장소 이름<input name="name" required maxlength="120"></label>
+        <label>카테고리<select name="category" id="place-category"></select></label>
+        <label class="wide">주소<input name="address" maxlength="240"></label>
+        <label class="wide">네이버지도 링크<input name="link" type="url" maxlength="1000" placeholder="https://map.naver.com/…"></label>
+        <label>위도<input name="lat" type="number" min="-90" max="90" step="any" inputmode="decimal"></label>
+        <label>경도<input name="lng" type="number" min="-180" max="180" step="any" inputmode="decimal"></label>
+        <div class="wide form-tools"><button type="button" id="pick-place">지도에서 위치 선택</button><button type="button" id="lookup-place">네이버에서 검색 ↗</button></div>
+        <label>대표 메뉴<input name="menu" maxlength="120"></label>
+        <label>가격 (원)<input name="price" type="number" min="0" max="100000000" step="1" inputmode="numeric"></label>
+        <label>탐나는전<select name="pay"><option value="unknown">미확인</option><option value="yes">사용 가능</option><option value="no">사용 불가</option></select></label>
+        <label>최종 확인일<input name="checked" type="date"></label>
+        <label class="wide">확인 출처<input name="source" maxlength="240" placeholder="매장 확인, 안내 페이지 등"></label>
+        <label class="wide">메모<textarea name="note" rows="2" maxlength="600"></textarea></label>
+      </div>
+      <p id="place-error" class="error" role="alert" hidden></p>
+      <div class="form-tools"><button class="primary" type="submit">장소 저장</button></div>
+    </form>
+  </dialog>
+
+  <dialog id="detail-dialog">
+    <div class="modal">
+      <div class="row"><h2 id="detail-title">장소 상세</h2><button class="icon-only detail-close" data-close="detail-dialog" aria-label="닫기"><svg class="icon" aria-hidden="true"><use href="#icon-x"/></svg></button></div>
+      <div id="detail-body"></div>
+      <div class="detail-actions"><button id="visit" class="primary">방문 +1</button><button id="undo">방문 취소</button><button id="edit" class="icon-only detail-edit" aria-label="수정" title="수정"><svg class="icon" aria-hidden="true"><use href="#icon-edit"/></svg></button><button id="remove" class="icon-only detail-remove danger" aria-label="삭제" title="삭제"><svg class="icon" aria-hidden="true"><use href="#icon-trash"/></svg></button></div>
+    </div>
+  </dialog>
+
+  <dialog id="settings-dialog">
+    <div class="modal">
+      <div class="row"><h2>설정과 백업</h2><button class="quiet" data-close="settings-dialog" aria-label="닫기">닫기</button></div>
+      <form id="map-form" class="settings-block">
+        <h3>네이버 지도</h3>
+        <label>AraFoodMap Client ID<input name="key" maxlength="64" pattern="[A-Za-z0-9_\-]+" autocomplete="off" spellcheck="false"></label>
+        <small>공개 웹 지도용 ID입니다. 현재 브라우저에 저장됩니다. 웹 서비스 URL은 포트와 경로 없이 등록하세요.</small>
+        <button type="submit">지도 설정 저장</button>
+      </form>
+      <form id="base-form" class="settings-block">
+        <h3>직선거리 기준점</h3><p>더딩글 아라 부티크 스터디카페</p>
+        <div class="form-grid"><label>위도<input name="lat" type="number" min="-90" max="90" step="any" inputmode="decimal"></label><label>경도<input name="lng" type="number" min="-180" max="180" step="any" inputmode="decimal"></label></div>
+        <div class="form-tools"><button type="submit">기준점 저장</button><button type="button" id="pick-base">지도에서 기준점 선택</button></div>
+      </form>
+      <div class="settings-block">
+        <h3>친구와 공유</h3><p id="account"></p>
+        <form id="login-form" hidden>
+          <label>이메일<input name="email" type="email" autocomplete="username" required></label>
+          <label>비밀번호<input name="password" type="password" autocomplete="current-password" required></label>
+          <button class="primary" type="submit">공유 목록 로그인</button>
+        </form>
+        <div class="form-tools"><button id="sync" hidden>공유 새로고침</button><button id="logout" hidden>공유 목록 로그아웃</button></div>
+        <small>이 기기의 목록을 옮기려면 먼저 백업을 받은 뒤 공유 목록에 로그인해서 가져오세요.</small>
+      </div>
+      <div class="settings-block">
+        <h3>백업 및 가져오기</h3>
+        <p>현재 목록을 JSON으로 저장합니다. 가져올 때는 새 장소만 추가됩니다.</p>
+        <div class="form-tools"><button id="export">백업 다운로드</button><button id="import">JSON 가져오기</button><input id="backup-file" type="file" accept=".json,application/json" hidden></div>
+        <a href="https://map.naver.com/p/favorite/myPlace/folder/89e21d3bd57f4410be62c32236540ca4" target="_blank" rel="noopener noreferrer">기존 네이버 저장 목록 열기 ↗</a>
+      </div>
+      <p id="settings-error" class="error" role="alert" hidden></p>
+    </div>
+  </dialog>
+</body>
+</html>
