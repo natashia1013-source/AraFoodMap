@@ -36,6 +36,7 @@ let mapState = "idle";
 const markers = new Map();
 let mapFocus = null;
 let mapPlaceId = null;
+let menuHiddenBeforeBanner = null;
 let focusedPlaceId = null;
 let lastSize = "";
 let lastPadding = "";
@@ -481,9 +482,15 @@ function naverPlaceLink(place) {
 function renderMapBanner(place) {
   const banner = $("map-place-banner");
   const frameSlot = $("map-place-frame");
+  const wasOpen = !banner.hidden;
+  const restoreMenu = !place && wasOpen ? menuHiddenBeforeBanner : null;
   if (banner.hidden === Boolean(place)) requestAnimationFrame(updateMap);
   banner.hidden = !place;
   mapPlaceId = place?.id ?? null;
+  if (restoreMenu !== null) {
+    menuHiddenBeforeBanner = null;
+    if (window.matchMedia("(max-width: 720px)").matches) setMenuPanelHidden(restoreMenu);
+  }
   if (!place) {
     frameSlot.replaceChildren();
     return;
@@ -790,20 +797,37 @@ function setMenuPanelHidden(hidden) {
   layout.classList.toggle("menu-hidden", hidden);
   handle.setAttribute("aria-expanded", String(!hidden));
   handle.setAttribute("aria-label", hidden ? "저장 목록 보이기" : "저장 목록 숨기기");
-  handle.title = hidden ? "오른쪽으로 끌어서 저장 목록 열기" : "왼쪽으로 끌어서 저장 목록 숨기기";
+  handle.title = hidden ? "위로 끌어서 저장 목록 열기" : "아래로 끌어서 저장 목록 숨기기";
   requestAnimationFrame(updateMap);
 }
 let panelPointerStart = null;
 let suppressPanelClick = false;
 $("menu-panel-handle").addEventListener("pointerdown", event => {
-  panelPointerStart = {x: event.clientX, hidden: $("layout").classList.contains("menu-hidden"), width: $("list-panel").getBoundingClientRect().width, pointerId: event.pointerId};
+  const mobile = window.matchMedia("(max-width: 720px)").matches;
+  const hidden = $("layout").classList.contains("menu-hidden");
+  const rect = $("list-panel").getBoundingClientRect();
+  panelPointerStart = {x: event.clientX, y: event.clientY, hidden, mobile, width: rect.width, height: rect.height, currentHeight: rect.height, pointerId: event.pointerId};
   suppressPanelClick = false;
+  if (mobile) event.preventDefault();
   $("layout").classList.add("panel-dragging");
-  $("layout").style.setProperty("--panel-drag-offset", "0px");
+  $("layout").style.setProperty(mobile ? "--mobile-list-height" : "--panel-drag-offset", mobile ? `${rect.height}px` : "0px");
   $("menu-panel-handle").setPointerCapture(event.pointerId);
 });
 $("menu-panel-handle").addEventListener("pointermove", event => {
   if (!panelPointerStart || event.pointerId !== panelPointerStart.pointerId) return;
+  if (panelPointerStart.mobile) {
+    const delta = event.clientY - panelPointerStart.y;
+    const maxHeight = Math.max(180, window.innerHeight - 160 - (parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--safe-area-inset-bottom")) || 0));
+    const defaultHeight = Math.min(maxHeight, Math.round(window.innerHeight * .54));
+    const height = panelPointerStart.hidden && delta < -32
+      ? Math.max(defaultHeight, Math.min(maxHeight, panelPointerStart.height - delta))
+      : Math.max(26, Math.min(maxHeight, panelPointerStart.height - delta));
+    panelPointerStart.currentHeight = height;
+    $("layout").style.setProperty("--mobile-list-height", `${height}px`);
+    $("layout").classList.toggle("panel-dragging", panelPointerStart.hidden && delta < -32 && height > 100);
+    requestAnimationFrame(updateMap);
+    return;
+  }
   const delta = event.clientX - panelPointerStart.x;
   const maxOffset = Math.max(0, panelPointerStart.width - 28);
   const offset = panelPointerStart.hidden ? Math.max(0, Math.min(maxOffset, delta)) : Math.min(0, Math.max(-maxOffset, delta));
@@ -812,6 +836,23 @@ $("menu-panel-handle").addEventListener("pointermove", event => {
 });
 $("menu-panel-handle").addEventListener("pointerup", event => {
   if (!panelPointerStart || event.pointerId !== panelPointerStart.pointerId) return;
+  if (panelPointerStart.mobile) {
+    const delta = event.clientY - panelPointerStart.y;
+    const maxHeight = Math.max(180, window.innerHeight - 160);
+    const defaultHeight = Math.min(maxHeight, Math.round(window.innerHeight * .54));
+    const reveal = panelPointerStart.hidden && delta < -32;
+    const hidden = !reveal && (panelPointerStart.height < 105 || (!panelPointerStart.hidden && delta > 48));
+    const height = hidden ? 26 : reveal ? Math.max(defaultHeight, panelPointerStart.currentHeight) : panelPointerStart.currentHeight;
+    const moved = Math.abs(delta) > 8;
+    panelPointerStart = null;
+    setMenuPanelHidden(hidden);
+    $("layout").classList.remove("panel-dragging");
+    $("layout").style.setProperty("--mobile-list-height", hidden ? "26px" : `${height}px`);
+    suppressPanelClick = moved;
+    setTimeout(() => { suppressPanelClick = false; }, 0);
+    requestAnimationFrame(updateMap);
+    return;
+  }
   const delta = event.clientX - panelPointerStart.x;
   const startHidden = panelPointerStart.hidden;
   const width = panelPointerStart.width;
@@ -826,9 +867,10 @@ $("menu-panel-handle").addEventListener("pointerup", event => {
   setTimeout(() => { suppressPanelClick = false; }, 0);
 });
 $("menu-panel-handle").addEventListener("pointercancel", () => {
+  const mobile = panelPointerStart?.mobile;
   panelPointerStart = null;
   $("layout").classList.remove("panel-dragging");
-  $("layout").style.removeProperty("--panel-drag-offset");
+  $("layout").style.removeProperty(mobile ? "--mobile-list-height" : "--panel-drag-offset");
   requestAnimationFrame(updateMap);
 });
 $("menu-panel-handle").onclick = () => {
@@ -842,7 +884,10 @@ function showPlaceOnMap(place, openBanner = true) {
   $("places").querySelector("[aria-current=true]")?.removeAttribute("aria-current");
   $("places").querySelector(`[data-place-id="${CSS.escape(place.id)}"]`)?.setAttribute("aria-current", "true");
   setView("map");
-  if (openBanner && window.matchMedia("(max-width: 720px)").matches) setMenuPanelHidden(true);
+  if (openBanner && window.matchMedia("(max-width: 720px)").matches) {
+    if (!mapPlaceId) menuHiddenBeforeBanner = $("layout").classList.contains("menu-hidden");
+    setMenuPanelHidden(true);
+  }
   renderMapBanner(openBanner ? place : null);
 }
 $("random-recommend").addEventListener("click", () => {
